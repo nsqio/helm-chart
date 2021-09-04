@@ -1,0 +1,81 @@
+{{- if .Values.nsqlookupd.enabled -}}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "nsq.nsqlookupd.fullname" . }}
+  labels:
+    {{- include "nsq.commonLabels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.nsqlookupd.replicaCount }}
+  podManagementPolicy: {{ .Values.nsqlookupd.podManagementPolicy }}
+  serviceName: {{ include "nsq.nsqlookupd.fullname" . }}
+  selector:
+    matchLabels:
+      {{- include "nsq.nsqlookupd.selectorLabels" . | nindent 6 }}
+  priorityClassName: {{ .Values.nsqlookupd.priorityClassName }}
+  template:
+    metadata:
+      {{- with .Values.nsqlookupd.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "nsq.nsqlookupd.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.nsqlookupd.podSecurityContext | nindent 8 }}
+      containers:
+      - name: {{ include "nsq.nsqlookupd.fullname" . }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default (printf "v%s" .Chart.AppVersion) }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        command:
+        - /nsqlookupd
+        args:
+        - --broadcast-address=$(POD_IP)
+        {{- range .Values.nsqlookupd.extraArgs  }}
+        - {{ . }}
+        {{- end }}
+        terminationMessagePolicy: FallbackToLogsOnError
+        ports:
+        - containerPort: 4160
+          name: tcp
+        - containerPort: 4161
+          name: http
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+        resources:
+          {{- toYaml .Values.nsqlookupd.resources | nindent 12 }}
+      serviceAccountName: {{ .Values.nsqlookupd.serviceAccountName }}
+      {{- with .Values.nsqlookupd.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nsqlookupd.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nsqlookupd.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

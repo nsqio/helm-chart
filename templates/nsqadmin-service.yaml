@@ -1,0 +1,18 @@
+{{- if .Values.nsqadmin.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "nsq.nsqadmin.fullname" . }}
+  labels:
+    {{- include "nsq.commonLabels" . | nindent 4 }}
+spec:
+  type: {{ .Values.nsqadmin.service.type }}
+  ports:
+  - port: {{ .Values.nsqadmin.service.port }}
+    targetPort: http
+    {{- if eq "NodePort" .Values.nsqadmin.service.type }}
+    nodePort: {{ .Values.nsqadmin.service.nodePort }}
+    {{- end }}
+  selector:
+    {{- include "nsq.nsqadmin.selectorLabels" . | nindent 4 }}
+{{- end }}

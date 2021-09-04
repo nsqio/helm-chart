@@ -1,0 +1,49 @@
+{{- if .Values.nsqadmin.ingress.enabled -}}
+{{- if semverCompare "<1.14-0" .Capabilities.KubeVersion.GitVersion }}
+apiVersion: extensions/v1beta1
+{{- else if semverCompare "<1.19-0" .Capabilities.KubeVersion.GitVersion }}
+apiVersion: networking.k8s.io/v1beta1
+{{- else }}
+apiVersion: networking.k8s.io/v1
+{{- end }}
+kind: Ingress
+metadata:
+  name: {{ include "nsq.nsqadmin.fullname" . }}
+  labels:
+    {{- include "nsq.commonLabels" . | nindent 4 }}
+  {{- with .Values.nsqadmin.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if .Values.nsqadmin.ingress.tls }}
+  tls:
+    {{- range .Values.nsqadmin.ingress.tls }}
+    - hosts:
+        {{- range .hosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .secretName }}
+    {{- end }}
+  {{- end }}
+  rules:
+  - http:
+      paths:
+      {{- if semverCompare "<1.19-0" .Capabilities.KubeVersion.GitVersion }}
+      - path: /
+        backend:
+          serviceName: {{ include "nsq.nsqadmin.fullname" . }}
+          servicePort: {{ .Values.nsqadmin.service.port }}
+      {{- else }}
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ include "nsq.nsqadmin.fullname" . }}
+            port:
+              number: {{ .Values.nsqadmin.service.port }}
+      {{- end }}
+    {{- if .Values.nsqadmin.ingress.host }}
+    host: {{ .Values.nsqadmin.ingress.host | quote }}
+    {{- end }}
+{{- end }}

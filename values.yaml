@@ -1,0 +1,143 @@
+# Default is chart name
+fullnameOverride:
+
+image:
+  repository: nsqio/nsq
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag:
+
+imagePullSecrets: []
+
+nsqlookupd:
+  enabled: true
+
+  fullnameOverride:
+
+  replicaCount: 3
+
+  priorityClassName:
+
+  extraArgs: []
+
+  podManagementPolicy: Parallel
+
+  podAnnotations: {}
+
+  podSecurityContext:
+    {}
+    # fsGroup: 2000
+
+  resources:
+    {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  serviceAccountName:
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+nsqadmin:
+  enabled: true
+
+  fullnameOverride:
+
+  replicaCount: 1
+
+  priorityClassName:
+
+  extraArgs: []
+
+  service:
+    type: ClusterIP
+    port: 4171
+    nodePort:
+
+  ingress:
+    enabled: false
+    host:
+    annotations:
+      {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  podAnnotations: {}
+
+  podSecurityContext:
+    {}
+    # fsGroup: 2000
+
+  resources:
+    {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  serviceAccountName:
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+nsqd:
+  enabled: true
+
+  fullnameOverride:
+
+  replicaCount: 3
+
+  priorityClassName:
+
+  extraArgs: []
+
+  podManagementPolicy: Parallel
+
+  podAnnotations: {}
+
+  podSecurityContext:
+    {}
+    # fsGroup: 2000
+
+  serviceAccountName:
+
+  resources:
+    {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  service:
+    type: ClusterIP
+
+  persistence:
+    enabled: true
+    size: 1Gi
+    storageClass: "-"
+    accessModes:
+      - ReadWriteOnce

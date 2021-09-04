@@ -1,0 +1,21 @@
+{{- if and .Values.nsqd.enabled (ne "headless" .Values.nsqd.service.type) -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "nsq.nsqd.fullname" . }}
+  labels:
+    {{- include "nsq.commonLabels" . | nindent 4 }}
+spec:
+  type: {{ .Values.nsqd.service.type }}
+  ports:
+  - name: http
+    port: 4151
+    protocol: TCP
+    targetPort: http
+  - name: tcp
+    port: 4150
+    protocol: TCP
+    targetPort: tcp
+  selector:
+    {{- include "nsq.nsqd.selectorLabels" . | nindent 4 }}
+{{- end }}

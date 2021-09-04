@@ -1,0 +1,69 @@
+{{- if .Values.nsqadmin.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "nsq.nsqadmin.fullname" . }}
+  labels:
+    {{- include "nsq.commonLabels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.nsqadmin.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "nsq.nsqadmin.selectorLabels" . | nindent 6 }}
+  priorityClassName: {{ .Values.nsqadmin.priorityClassName }}
+  template:
+    metadata:
+      {{- with .Values.nsqadmin.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "nsq.nsqadmin.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.nsqadmin.podSecurityContext | nindent 8 }}
+      containers:
+      - name: {{ include "nsq.nsqadmin.fullname" . }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default (printf "v%s" .Chart.AppVersion) }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command:
+        - /nsqadmin
+        args:
+        {{ $lookupdFullName := include "nsq.nsqlookupd.fullname" . -}}
+        {{ range $i, $e := until (atoi (printf "%d" (int64 .Values.nsqlookupd.replicaCount))) -}}
+        - --lookupd-http-address={{ $lookupdFullName }}-{{ $i }}.{{ $lookupdFullName }}:4161
+        {{ end -}}
+        {{- range .Values.nsqadmin.extraArgs  }}
+        - {{ . }}
+        {{- end }}
+        terminationMessagePolicy: FallbackToLogsOnError
+        ports:
+        - containerPort: 4171
+          name: http
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+      serviceAccountName: {{ .Values.nsqlookupd.serviceAccountName }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}
