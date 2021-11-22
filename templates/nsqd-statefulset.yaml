@@ -100,9 +100,7 @@ spec:
         requests:
           storage: {{ .Values.nsqd.persistence.size | quote }}
     {{- if .Values.nsqd.persistence.storageClass }}
-    {{- if (eq "-" .Values.nsqd.persistence.storageClass) }}
-      storageClassName: ""
-    {{- else }}
+    {{- if (ne "-" .Values.nsqd.persistence.storageClass) }}
       storageClassName: "{{ .Values.nsqd.persistence.storageClass }}"
     {{- end }}
     {{- end }}

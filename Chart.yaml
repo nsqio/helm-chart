@@ -2,7 +2,7 @@ apiVersion: v2
 name: nsq
 description: A realtime distributed messaging platform
 type: application
-version: 1.2.0
+version: 1.2.1
 appVersion: 1.2.1
 home: https://github.com/beeinventor/charts/tree/master/beeinventor/nsq
 icon: https://nsq.io/static/img/nsq_blue.png

@@ -52,7 +52,7 @@ spec:
             path: /
             port: http
         resources:
-          {{- toYaml .Values.resources | nindent 12 }}
+          {{- toYaml .Values.nsqadmin.resources | nindent 12 }}
       serviceAccountName: {{ .Values.nsqlookupd.serviceAccountName }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
