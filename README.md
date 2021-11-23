@@ -5,8 +5,8 @@ NSQ is a realtime distributed messaging platform designed to operate at scale, h
 ## TL;DR
 
 ```sh
-helm repo add beeinventor https://beeinventor.github.io/charts
-helm install my-release beeinventor/nsq
+helm repo add nsqio https://nsqio.github.io/helm-chart
+helm install my-release nsqio/nsq
 ```
 
 ## Values

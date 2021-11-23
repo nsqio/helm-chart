@@ -4,7 +4,7 @@ description: A realtime distributed messaging platform
 type: application
 version: 1.2.1
 appVersion: 1.2.1
-home: https://github.com/beeinventor/charts/tree/master/beeinventor/nsq
+home: https://github.com/nsqio/helm-chart/tree/master/charts/nsq
 icon: https://nsq.io/static/img/nsq_blue.png
 keywords:
 - nsq
@@ -15,5 +15,5 @@ maintainers:
 - email: benhu@beeinventor.com
   name: BeeInventor
 sources:
-- https://github.com/beeinventor/charts/tree/master/beeinventor/nsq
+- https://github.com/nsqio/helm-chart/tree/master/charts/nsq
 - https://nsq.io/
