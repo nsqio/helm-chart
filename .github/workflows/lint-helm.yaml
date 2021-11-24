@@ -1,0 +1,23 @@
+name: Lint Helm Charts
+on:
+  pull_request:
+    branches:
+      - master
+  pull_request_review:
+    types: [submitted, edited]
+  release:
+    types:
+    - published
+    - created
+    - edited
+jobs:
+  lint-helm:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Helm
+      uses: azure/setup-helm@v1
+      with:
+        version: "3.5.4"
+    - name: Lint nsq
+      run: helm lint ./charts/nsq
