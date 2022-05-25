@@ -53,16 +53,16 @@ spec:
             port: http
         resources:
           {{- toYaml .Values.nsqadmin.resources | nindent 12 }}
-      serviceAccountName: {{ .Values.nsqlookupd.serviceAccountName }}
-      {{- with .Values.nodeSelector }}
+      serviceAccountName: {{ .Values.nsqadmin.serviceAccountName }}
+      {{- with .Values.nsqadmin.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.affinity }}
+      {{- with .Values.nsqadmin.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.tolerations }}
+      {{- with .Values.nsqadmin.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
