@@ -24,4 +24,27 @@ entries:
     urls:
     - https://github.com/nsqio/helm-chart/releases/download/nsq-1.2.1/nsq-1.2.1.tgz
     version: 1.2.1
-generated: "2021-11-24T16:15:53.294816404Z"
+  - apiVersion: v2
+    appVersion: 1.2.1
+    created: "2022-05-28T17:11:59.873650688Z"
+    description: A realtime distributed messaging platform
+    digest: 412bec98466605735b1ffc27a9dc7e48a219d4c9f80fd14322efab4394471403
+    home: https://github.com/nsqio/helm-chart/tree/master/charts/nsq
+    icon: https://nsq.io/static/img/nsq_blue.png
+    keywords:
+    - nsq
+    - nsqd
+    - nsqlookupd
+    - nsqadmin
+    maintainers:
+    - email: benhu@beeinventor.com
+      name: BeeInventor
+    name: nsq
+    sources:
+    - https://github.com/nsqio/helm-chart/tree/master/charts/nsq
+    - https://nsq.io/
+    type: application
+    urls:
+    - https://github.com/nsqio/helm-chart/releases/download/nsq-0.0.2/nsq-0.0.2.tgz
+    version: 0.0.2
+generated: "2022-05-28T17:11:59.873657688Z"
