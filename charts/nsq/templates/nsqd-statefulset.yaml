@@ -21,10 +21,7 @@ spec:
       labels:
         {{- include "nsq.nsqd.selectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      {{- include "nsq.imagePullSecrets" . | nindent 6 }}
       securityContext:
         {{- toYaml .Values.nsqd.podSecurityContext | nindent 8 }}
       containers:
@@ -71,6 +68,43 @@ spec:
         volumeMounts:
         - name: data
           mountPath: /data
+      {{- if .Values.metrics.enabled }}
+      - name: metrics
+        image: "{{ .Values.metrics.image.registry }}/{{ .Values.metrics.image.repository }}:{{ .Values.metrics.image.tag }}"
+        imagePullPolicy: {{ .Values.metrics.image.pullPolicy | quote }}
+        {{- if .Values.metrics.args }}
+        args: {{- include "nsq.tplvalues.render" (dict "value" .Values.metrics.args "context" $) | nindent 12 }}
+        {{- else }}
+        args:
+          - -web.listen=:{{ .Values.metrics.containerPort }}
+          - -web.path=/metrics
+          - -nsqd.addr=http://localhost:4151/stats
+          - -collect=stats.topics,stats.channels,stats.clients
+        {{- end }}
+        ports:
+          - name: metrics
+            containerPort: {{ .Values.metrics.containerPort }}
+        {{- if .Values.metrics.livenessProbe.enabled }}
+        livenessProbe: {{- include "nsq.tplvalues.render" (dict "value" (omit .Values.metrics.livenessProbe "enabled") "context" $) | nindent 10 }}
+          httpGet:
+            path: /
+            port: metrics
+        {{- end }}
+        {{- if .Values.metrics.readinessProbe.enabled }}
+        readinessProbe: {{- include "nsq.tplvalues.render" (dict "value" (omit .Values.metrics.readinessProbe "enabled") "context" $) | nindent 10 }}
+          httpGet:
+            path: /
+            port: metrics
+        {{- end }}
+        {{- if .Values.metrics.startupProbe.enabled }}
+        startupProbe: {{- include "nsq.tplvalues.render" (dict "value" (omit .Values.metrics.startupProbe "enabled") "context" $) | nindent 10 }}
+          tcpSocket:
+            port: metrics
+        {{- end }}
+        {{- if .Values.metrics.resources }}
+        resources: {{- toYaml .Values.metrics.resources | nindent 10 }}
+        {{- end }}
+      {{- end }}
       serviceAccountName: {{ .Values.nsqd.serviceAccountName }}
       {{- with .Values.nsqd.nodeSelector }}
       nodeSelector:

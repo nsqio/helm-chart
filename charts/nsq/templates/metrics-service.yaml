@@ -1,0 +1,27 @@
+{{- if .Values.metrics.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ printf "%s-metrics" (include "nsq.fullname" .) }}
+  labels:
+    app.kubernetes.io/component: metrics
+    {{- if .Values.commonLabels }}
+    {{- include "nsq.tplvalues.render" ( dict "value" .Values.commonLabels "context" $ ) | nindent 4 }}
+    {{- end }}
+  {{- if .Values.metrics.service.annotations }}
+  annotations:
+    {{- include "nsq.tplvalues.render" (dict "value" .Values.metrics.service.annotations "context" $) | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.metrics.service.type }}
+  ports:
+    - port: {{ .Values.metrics.service.ports.metrics }}
+      targetPort: metrics
+      protocol: TCP
+      name: http-metrics
+    {{- if .Values.metrics.service.extraPorts }}
+    {{- include "common.tplvalues.render" (dict "value" .Values.metrics.service.extraPorts "context" $) | nindent 4 }}
+    {{- end }}
+  selector: 
+    {{- include "nsq.nsqd.selectorLabels" . | nindent 4 }}
+{{- end }}

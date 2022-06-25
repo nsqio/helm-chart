@@ -5,6 +5,10 @@ metadata:
   name: {{ include "nsq.nsqadmin.fullname" . }}
   labels:
     {{- include "nsq.commonLabels" . | nindent 4 }}
+  {{- with .Values.nsqadmin.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   type: {{ .Values.nsqadmin.service.type }}
   ports:
