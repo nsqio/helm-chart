@@ -84,11 +84,11 @@ Return the proper Docker Image Registry Secret Names
   {{- $pullSecrets := list }}
   
   {{- range .Values.imagePullSecrets -}}
-    {{- $pullSecrets = append $pullSecrets . -}}
+    {{- $pullSecrets = append $pullSecrets .name -}}
   {{- end -}}
   
   {{- range .Values.metrics.image.pullSecrets -}}
-    {{- $pullSecrets = append $pullSecrets . -}}
+    {{- $pullSecrets = append $pullSecrets .name -}}
   {{- end -}}
   {{- if (not (empty $pullSecrets)) }}
 imagePullSecrets:
