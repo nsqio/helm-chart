@@ -43,27 +43,28 @@ The following table lists the configurable parameters of the nsq chart and their
 
 ### nsqadmin
 
-| Value                        | Description                                                                          | Default                  |
-|------------------------------|--------------------------------------------------------------------------------------|--------------------------|
-| nsqadmin.enabled             | Enable the nsqadmin                                                                  | `true`                   |
-| nsqadmin.fullnameOverride    | String to partially override nsq.nsqadmin.fullname                                   | `.Release.Name-nsqadmin` |
-| nsqadmin.replicaCount        | Number of nsqadmin replicas                                                          | `1`                      |
-| nsqadmin.priorityClassName   | The name of the kube priority class used. Defaults to global default.                | `nil`                    |
-| nsqadmin.extraArgs           | Extra arguments to provide to the `nsqadmin` command                                 | `[]`                     |
-| nsqadmin.service.type        | The nsqadmin service type                                                            | `ClusterIP`              |
-| nsqadmin.service.port        | The nsqadmin service port                                                            | `4171`                   |
-| nsqadmin.service.nodePort    | The nsqadmin service node port                                                       | `nil`                    |
-| nsqadmin.ingress.enabled     | Enable the nsqadmin ingress                                                          | `false`                  |
-| nsqadmin.ingress.host        | Host of the nsqadmin ingress                                                         | `nil`                    |
-| nsqadmin.ingress.annotations | The annotations to attach to the ingress                                             | `{}`                     |
-| nsqadmin.ingress.tls         | TLS configurations for the hostname                                                  | `[]`                     |
-| nsqadmin.podAnnotations      | The annotations to attach to the nsqadmin pods                                       | `{}`                     |
-| nsqadmin.podSecurityContext  | The security context to attach to the nsqadmin pods                                  | `{}`                     |
-| nsqadmin.resources           | The resources to allocate to the nsqadmin pods                                       | `{}`                     |
-| nsqadmin.serviceAccountName  | The name of the service account used. Defaults to namespace default service account. | `nil`                    |
-| nsqadmin.nodeSelector        | The tags that will be used to select the node on which the pods should be scheduled  | `{}`                     |
-| nsqadmin.tolerations         | Tolerations for pod assignment                                                       | `[]`                     |
-| nsqadmin.affinity            | Affinity for pod assignment                                                          | `[]`                     |
+| Value                             | Description                                                                          | Default                  |
+|-----------------------------------|--------------------------------------------------------------------------------------|--------------------------|
+| nsqadmin.enabled                  | Enable the nsqadmin                                                                  | `true`                   |
+| nsqadmin.fullnameOverride         | String to partially override nsq.nsqadmin.fullname                                   | `.Release.Name-nsqadmin` |
+| nsqadmin.replicaCount             | Number of nsqadmin replicas                                                          | `1`                      |
+| nsqadmin.priorityClassName        | The name of the kube priority class used. Defaults to global default.                | `nil`                    |
+| nsqadmin.extraArgs                | Extra arguments to provide to the `nsqadmin` command                                 | `[]`                     |
+| nsqadmin.service.type             | The nsqadmin service type                                                            | `ClusterIP`              |
+| nsqadmin.service.port             | The nsqadmin service port                                                            | `4171`                   |
+| nsqadmin.service.nodePort         | The nsqadmin service node port                                                       | `nil`                    |
+| nsqadmin.ingress.enabled          | Enable the nsqadmin ingress                                                          | `false`                  |
+| nsqadmin.ingress.host             | Host of the nsqadmin ingress                                                         | `nil`                    |
+| nsqadmin.ingress.ingressClassName | Set the ingerssClassName on the ingress record for k8s 1.18+                         | ``                       |
+| nsqadmin.ingress.annotations      | The annotations to attach to the ingress                                             | `{}`                     |
+| nsqadmin.ingress.tls              | TLS configurations for the hostname                                                  | `[]`                     |
+| nsqadmin.podAnnotations           | The annotations to attach to the nsqadmin pods                                       | `{}`                     |
+| nsqadmin.podSecurityContext       | The security context to attach to the nsqadmin pods                                  | `{}`                     |
+| nsqadmin.resources                | The resources to allocate to the nsqadmin pods                                       | `{}`                     |
+| nsqadmin.serviceAccountName       | The name of the service account used. Defaults to namespace default service account. | `nil`                    |
+| nsqadmin.nodeSelector             | The tags that will be used to select the node on which the pods should be scheduled  | `{}`                     |
+| nsqadmin.tolerations              | Tolerations for pod assignment                                                       | `[]`                     |
+| nsqadmin.affinity                 | Affinity for pod assignment                                                          | `[]`                     |
 
 ### nsqd
 
