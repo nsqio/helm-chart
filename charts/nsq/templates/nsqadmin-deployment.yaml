@@ -10,7 +10,6 @@ spec:
   selector:
     matchLabels:
       {{- include "nsq.nsqadmin.selectorLabels" . | nindent 6 }}
-  priorityClassName: {{ .Values.nsqadmin.priorityClassName }}
   template:
     metadata:
       {{- with .Values.nsqadmin.podAnnotations }}
@@ -25,6 +24,7 @@ spec:
       {{- end }}
       securityContext:
         {{- toYaml .Values.nsqadmin.podSecurityContext | nindent 8 }}
+      priorityClassName: {{ .Values.nsqadmin.priorityClassName }}
       containers:
       - name: {{ include "nsq.nsqadmin.fullname" . }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default (printf "v%s" .Chart.AppVersion) }}"
