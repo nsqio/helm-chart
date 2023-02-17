@@ -17,7 +17,3 @@ maintainers:
 sources:
   - https://github.com/nsqio/helm-chart/tree/master/charts/nsq
   - https://nsq.io/
-dependencies:
-  - name: common
-    repository: https://charts.bitnami.com/bitnami
-    version: "2.x.x"
