@@ -7,13 +7,17 @@ appVersion: 1.2.1
 home: https://github.com/nsqio/helm-chart/tree/master/charts/nsq
 icon: https://nsq.io/static/img/nsq_blue.png
 keywords:
-- nsq
-- nsqd
-- nsqlookupd
-- nsqadmin
+  - nsq
+  - nsqd
+  - nsqlookupd
+  - nsqadmin
 maintainers:
-- email: benhu@beeinventor.com
-  name: BeeInventor
+  - email: benhu@beeinventor.com
+    name: BeeInventor
 sources:
-- https://github.com/nsqio/helm-chart/tree/master/charts/nsq
-- https://nsq.io/
+  - https://github.com/nsqio/helm-chart/tree/master/charts/nsq
+  - https://nsq.io/
+dependencies:
+  - name: common
+    repository: https://charts.bitnami.com/bitnami
+    version: "2.x.x"
