@@ -20,7 +20,7 @@ spec:
       protocol: TCP
       name: http-metrics
     {{- if .Values.metrics.service.extraPorts }}
-    {{- include "common.tplvalues.render" (dict "value" .Values.metrics.service.extraPorts "context" $) | nindent 4 }}
+    {{- include "nsq.tplValues.render" (dict "value" .Values.metrics.service.extraPorts "context" $) | nindent 4 }}
     {{- end }}
   selector: 
     {{- include "nsq.nsqd.selectorLabels" . | nindent 4 }}
