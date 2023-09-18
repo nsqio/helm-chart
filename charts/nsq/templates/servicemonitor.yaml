@@ -6,7 +6,7 @@ metadata:
   namespace: {{ include "nsq.serviceMonitor.namespace" . }}
   labels:
     {{- if .Values.metrics.serviceMonitor.labels }}
-    {{- include "nsq.tplValues.render" (dict "value" .Values.metrics.serviceMonitor.labels "context" $) | nindent 4 }}
+    {{- include "nsq.tplvalues.render" (dict "value" .Values.metrics.serviceMonitor.labels "context" $) | nindent 4 }}
     {{- end }}
     app.kubernetes.io/component: metrics
 spec:
@@ -16,7 +16,7 @@ spec:
   selector:
     matchLabels:
       {{- if .Values.metrics.serviceMonitor.selector }}
-      {{- include "nsq.tplValues.render" (dict "value" .Values.metrics.serviceMonitor.selector "context" $) | nindent 6 }}
+      {{- include "nsq.tplvalues.render" (dict "value" .Values.metrics.serviceMonitor.selector "context" $) | nindent 6 }}
       {{- end }}
       app.kubernetes.io/component: metrics
   endpoints:
@@ -28,10 +28,10 @@ spec:
       scrapeTimeout: {{ .Values.metrics.serviceMonitor.scrapeTimeout }}
       {{- end }}
       {{- if .Values.metrics.serviceMonitor.relabelings }}
-      relabelings: {{- include "nsq.tplValues.render" ( dict "value" .Values.metrics.serviceMonitor.relabelings "context" $) | nindent 8 }}
+      relabelings: {{- include "nsq.tplvalues.render" ( dict "value" .Values.metrics.serviceMonitor.relabelings "context" $) | nindent 8 }}
       {{- end }}
       {{- if .Values.metrics.serviceMonitor.metricRelabelings }}
-      metricRelabelings: {{- include "nsq.tplValues.render" ( dict "value" .Values.metrics.serviceMonitor.metricRelabelings "context" $) | nindent 8 }}
+      metricRelabelings: {{- include "nsq.tplvalues.render" ( dict "value" .Values.metrics.serviceMonitor.metricRelabelings "context" $) | nindent 8 }}
       {{- end }}
       {{- if .Values.metrics.serviceMonitor.honorLabels }}
       honorLabels: {{ .Values.metrics.serviceMonitor.honorLabels }}
