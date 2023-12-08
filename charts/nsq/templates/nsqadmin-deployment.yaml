@@ -33,6 +33,7 @@ spec:
         command:
         - /nsqadmin
         args:
+        - --base-path={{ .Values.nsqadmin.basePath }}
         {{ $lookupdFullName := include "nsq.nsqlookupd.fullname" . -}}
         {{ range $i, $e := until (atoi (printf "%d" (int64 .Values.nsqlookupd.replicaCount))) -}}
         - --lookupd-http-address={{ $lookupdFullName }}-{{ $i }}.{{ $lookupdFullName }}:4161
@@ -46,11 +47,11 @@ spec:
           name: http
         livenessProbe:
           httpGet:
-            path: /
+            path: {{ .Values.nsqadmin.basePath }}
             port: http
         readinessProbe:
           httpGet:
-            path: /
+            path: {{ .Values.nsqadmin.basePath }}
             port: http
         resources:
           {{- toYaml .Values.nsqadmin.resources | nindent 12 }}
