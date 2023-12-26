@@ -54,6 +54,8 @@ nsqadmin:
 
   priorityClassName:
 
+  basePath: /
+
   extraArgs: []
 
   service:
