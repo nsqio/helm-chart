@@ -177,6 +177,10 @@ metrics:
 
   service:
     annotations:
+      # Prometheus does not connect to this service directly,
+      # instead it uses this port to connect to each target
+      # of the service (each nsqd).
+      # TODO: remove service and annotate pods instead?
       prometheus.io/scrape: "true"
       prometheus.io/port: "{{ .Values.metrics.containerPort }}"
       prometheus.io/path: "/metrics"
