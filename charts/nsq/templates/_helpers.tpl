@@ -61,6 +61,7 @@ nsqlookupd selector labels
 */}}
 {{- define "nsq.nsqlookupd.selectorLabels" -}}
 app.kubernetes.io/component: nsqlookupd
+app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
@@ -68,6 +69,7 @@ nsqadmin selector labels
 */}}
 {{- define "nsq.nsqadmin.selectorLabels" -}}
 app.kubernetes.io/component: nsqadmin
+app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
@@ -75,6 +77,7 @@ nsqd selector labels
 */}}
 {{- define "nsq.nsqd.selectorLabels" -}}
 app.kubernetes.io/component: nsqd
+app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
